@@ -16,7 +16,14 @@ const ImageGallery = () => {
       setImages([...images, ...imageUrls]);
     }
   };
-
+  // Select Image
+  const selectImage = (index) => {
+    if (selectedImages.includes(index)) {
+      setSelectedImages(selectedImages.filter((i) => i !== index));
+    } else {
+      setSelectedImages([...selectedImages, index]);
+    }
+  };
   //   Delete selected Images
   const deleteSelectedImages = () => {
     const remainingImages = images.filter(
@@ -88,15 +95,7 @@ const ImageGallery = () => {
                 }`}
                 type="checkbox"
                 checked={selectedImages.includes(index)}
-                onChange={() => {
-                  if (selectedImages.includes(index)) {
-                    setSelectedImages(
-                      selectedImages.filter((i) => i !== index)
-                    );
-                  } else {
-                    setSelectedImages([...selectedImages, index]);
-                  }
-                }}
+                onChange={() => selectImage(index)}
               />
             </div>
           );
