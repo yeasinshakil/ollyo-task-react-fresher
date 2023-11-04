@@ -10,7 +10,7 @@ Open [https://photo-gallery-by-yeasin-shakil.netlify.app/](https://photo-gallery
 
 ### Technologies Used
 
-To build this project I have used React Js and for faster build I have used Vite. I've managed drag & drop in two different ways one is vanilla js and another is third party packege called react-beatiful-dnd
+To build this project I have used React Js and for faster build I have used Vite. I've managed drag & drop in two different ways one is vanilla js and another is third party packege called react-beatiful-dnd. And for css I've use Tailwind css.
 
 ## Available Scripts
 
