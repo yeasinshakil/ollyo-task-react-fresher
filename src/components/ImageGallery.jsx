@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { AiFillFileImage } from "react-icons/ai";
 import { BsTrash3Fill } from "react-icons/bs";
 
@@ -31,6 +31,37 @@ const ImageGallery = () => {
     );
     setImages(remainingImages);
     setSelectedImages([]);
+  };
+
+  let imageItemDrag = useRef();
+  let imageItemDragOver = useRef();
+
+  const dragStart = (e, index) => {
+    imageItemDrag.current = index;
+    // console.log(e, " Drag Start>>>>>>", index);
+  };
+  const dragEnter = (e, index) => {
+    imageItemDragOver.current = index;
+
+    // console.log(e, "Drag Enter>>>>>>", index);
+  };
+
+  const dragEnd = (e, index) => {
+    const arr1 = [...images];
+
+    const image_item_main = arr1[imageItemDrag.current];
+    arr1.splice(imageItemDrag.current, 1);
+    arr1.splice(imageItemDragOver.current, 0, image_item_main);
+
+    imageItemDrag.current = null;
+    imageItemDragOver.current = null;
+    setImages(arr1);
+    // console.log(e, "Drag End>>>>>>", index);
+  };
+
+  const dragOver = (e) => {
+    e.preventDefault();
+    // console.log("drag over==>>");
   };
 
   // console.log(images);
@@ -68,10 +99,17 @@ const ImageGallery = () => {
 
       {/* dran and drop */}
 
-      <div className=" grid gap-4 grid-cols-5 items-center mx-4 ">
+      <div
+        onDragOver={dragOver}
+        className=" grid gap-4 grid-cols-5 items-center mx-4 "
+      >
         {images.map((image, index) => {
           return (
             <div
+              onDragStart={(e) => dragStart(e, index)}
+              onDragEnter={(e) => dragEnter(e, index)}
+              onDragEnd={(e) => dragEnd(e, index)}
+              draggable
               key={index}
               className={` w-full h-full border border-black p-0 rounded-md cursor-pointer shadow-sm relative group transition-all ${
                 selectedImages.includes(index)
@@ -103,7 +141,7 @@ const ImageGallery = () => {
 
         {/* Add image button */}
         <div
-          className=" h-full w-full min-w-[100px] min-h-[100px] flex justify-center flex-col items-center bg-neutral-100 cursor-pointer rounded-md border-neutral-600 border-dashed border"
+          className=" h-full w-full min-w-[100px] min-h-[100px] flex justify-center flex-col items-center bg-neutral-100 cursor-pointer rounded-md border-neutral-600 border-dashed border hover:bg-neutral-200 transition-colors"
           onClick={() => document.querySelector("#image_input").click()}
         >
           <input
